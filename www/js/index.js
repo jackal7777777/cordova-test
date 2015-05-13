@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 var app = {
   // Application Constructor
   initialize: function() {
@@ -27,9 +9,11 @@ var app = {
   // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    /*var el = document.getElementById('camera');
-    el.addEventListener('click', camera, false);*/
-
+    ons.bootstrap();
+    ons.ready(function(){
+      console.log("onsen is ready.");
+      //pageNavigation();
+    });
   },
   // deviceready Event Handler
   //
@@ -37,36 +21,33 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent('deviceready');
-    var el = document.getElementById('camera');
-    el.addEventListener('click', camera, false);
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
-    var parentElement = document.getElementById(id);
+    /*var parentElement = document.getElementById(id);
     var listeningElement = parentElement.querySelector('.listening');
     var receivedElement = parentElement.querySelector('.received');
 
     listeningElement.setAttribute('style', 'display:none;');
     receivedElement.setAttribute('style', 'display:block;');
 
-    console.log('Received Event: ' + id);
+    console.log('Received Event: ' + id);*/
   }
 };
 
-function camera(){
-
-  var options = {
-    quality: 50,
-    destinationType: navigator.camera.DestinationType.FILE_URI
-  };
-
-  // camera.getPicutureメソッドを使って端末のカメラを呼び出す
-  navigator.camera.getPicture(function (imageData) {
-    alert(imageData);
-  }, function () {
-    alert('fail');
-  }, options);
-  //alert("ok");
+//navigations
+function pageNavigation(){
+  //push
+  var push = document.getElementById('push');
+  push.addEventListener('click', function(){
+    myNavigator.pushPage('blog.html', { animation : 'slide' },function(){
+      //pop
+      var pop = document.getElementById('pop');
+      pop.addEventListener('click', function(){
+        myNavigator.popPage();
+      }, false);
+    });
+  }, false);
 }
 
 app.initialize();
