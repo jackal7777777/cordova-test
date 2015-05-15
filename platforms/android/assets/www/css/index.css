@@ -16,4 +16,52 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+html, body{
+    margin: 0;
+    padding: 0;
+    font-size: 62.5%;
+}
 
+/*==========画像縦横比計算==========*/
+.box {
+    position: relative;
+    width: 100%;
+    height: auto;
+    background: #444;
+}
+.ratio-1_1:before {
+    content: "";
+    display: block;
+    padding-top: 100%; /* 1:1 */
+}
+.inner {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+}
+/*==========end/画像縦横比計算==========*/
+
+
+#top_image{
+    width: 100%;
+    background-image: url("../img/top.jpg");
+    background-attachment: corver;
+    background-position: center;
+}
+#news_area{
+    height: 1000px;
+    background: #999;
+}
+
+.news_header{
+	display: block;
+	padding: 3%;
+	width: 100%;
+	height: 50px;
+	background: #00004C;
+	color: #fff;
+	text-align: center;
+	vertical-align: middle;
+	font-size: 2rem;
+}

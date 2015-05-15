@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="my-app">
   <head>
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
     <meta name="format-detection" content="telephone=no">
@@ -12,7 +12,7 @@
     <script src="lib/onsen/js/onsenui.js"></script>
     <title>Nana Mizuki Portal</title>
   </head>
-  <body>
+  <body ng-controller="AppController">
     <ons-tabbar>
       <ons-tab page="blog.html" label="Blog" icon="fa-square"></ons-tab>
       <ons-tab page="news.html" label="News" icon="fa-square" active="true"></ons-tab>

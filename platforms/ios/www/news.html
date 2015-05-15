@@ -1,4 +1,20 @@
-<ons-toolbar>
-  <div class="center">News</div>
-</ons-toolbar>
-<p style="padding-top: 100px; color: #999; text-align: center">Page Contents</p>
+<ons-page ng-controller="PageController">
+  <ons-toolbar>
+    <div class="center">News</div>
+  </ons-toolbar>
+  <!--
+  <p style="padding-top: 100px; color: #999; text-align: center">Page Contents</p>
+  -->
+  <div class="box ratio-1_1">
+    <div class="inner" id="top_image">
+    </div>
+  </div>
+  <div id="news_area">
+    <ons-list>
+      <ons-list-header class="news_header">LATEST NEWS</ons-list-header>
+      <ons-list-item>first</ons-list-item>
+      <ons-list-item>second</ons-list-item>
+      <ons-list-item>third</ons-list-item>
+    </ons-list>
+  </div>
+</ons-page>

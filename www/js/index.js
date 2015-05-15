@@ -9,10 +9,14 @@ var app = {
   // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    ons.bootstrap();
-    ons.ready(function(){
-      console.log("onsen is ready.");
-      //pageNavigation();
+    var module = ons.bootstrap('my-app', ['onsen']);
+    module.controller('AppController', function($scope) { });
+    module.controller('PageController', function($scope) {
+      ons.ready(function() {
+        //pageNavigation();
+        console.log("onsen is ready.");
+        //var domContent = angular.element("#news_area");
+      });
     });
   },
   // deviceready Event Handler
