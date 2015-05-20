@@ -9,12 +9,38 @@ var app = {
   // 'load', 'deviceready', 'offline', and 'online'.
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
-    var module = ons.bootstrap('my-app', ['onsen']);
+    var module = ons.bootstrap('myApp', ['onsen']);
     module.controller('AppController', function($scope) { });
-    module.controller('PageController', function($scope) {
+    module.controller('PageController', function($scope, $http) {
       ons.ready(function() {
         //pageNavigation();
         console.log("onsen is ready.");
+        //newsLoad();
+
+        /*
+        $http.post("lib/file_get/file_get.php")
+        .success(function(data) {
+          console.log(data);
+        })
+        .error(function(data) {
+          console.log(data);
+        });
+        */
+
+
+        var request = $http({
+            method: "post",
+            url: "http://www.mizukinana.jp/news/index.html",
+            data: {
+                type: 'latest'
+            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+
+        request.json(url).success(function(data) {
+          console.log(data);
+        });
+
         //var domContent = angular.element("#news_area");
       });
     });
@@ -28,14 +54,6 @@ var app = {
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
-    /*var parentElement = document.getElementById(id);
-    var listeningElement = parentElement.querySelector('.listening');
-    var receivedElement = parentElement.querySelector('.received');
-
-    listeningElement.setAttribute('style', 'display:none;');
-    receivedElement.setAttribute('style', 'display:block;');
-
-    console.log('Received Event: ' + id);*/
   }
 };
 
@@ -52,6 +70,22 @@ function pageNavigation(){
       }, false);
     });
   }, false);
+}
+
+function newsLoad(){
+  var myApp = angular.module("myApp", []);
+  console.log("call");
+ 
+  myApp.run(function($http) {
+    onsole.log("incall");
+    $http.get("../lib/file_get/file_get.php")
+    .success(function(data) {
+      console.log(data);
+    })
+    .error(function(err) {
+      console.log(err);
+    });
+  });
 }
 
 app.initialize();
