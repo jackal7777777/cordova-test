@@ -1,4 +1,4 @@
-<ons-page ng-controller="PageController">
+<ons-page ng-controller="NewsController">
   <ons-toolbar>
     <div class="center">News</div>
   </ons-toolbar>
@@ -15,6 +15,7 @@
       <ons-list-item>first</ons-list-item>
       <ons-list-item>second</ons-list-item>
       <ons-list-item>third</ons-list-item>
+      <ons-list-item modifier="tappable" ng-click="networkTest()">通信環境</ons-list-item>
     </ons-list>
   </div>
 </ons-page>

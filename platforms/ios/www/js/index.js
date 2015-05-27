@@ -10,40 +10,16 @@ var app = {
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
     var module = ons.bootstrap('myApp', ['onsen']);
-    module.controller('AppController', function($scope) { });
-    module.controller('PageController', function($scope, $http) {
+    module.controller('AppController', function($scope) {
+      console.log("onsen is ready");
+    });
+    module.controller('NewsController', function($scope, $http) {
       ons.ready(function() {
-        //pageNavigation();
-        console.log("onsen is ready.");
-        //newsLoad();
-
-        /*
-        $http.post("lib/file_get/file_get.php")
-        .success(function(data) {
-          console.log(data);
-        })
-        .error(function(data) {
-          console.log(data);
-        });
-        */
-
-
-        var request = $http({
-            method: "post",
-            url: "https://www.corsproxy.com/www.mizukinana.jp/news/index.html",
-            data: {
-                type: 'latest'
-            },
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        });
-
-        request.json(url).success(function(data) {
-          console.log(data);
-        });
-
-        //var domContent = angular.element("#news_area");
+        
+        $scope.networkTest = checkConnection();
       });
     });
+    module.controller('PageController', function($scope) {});
   },
   // deviceready Event Handler
   //
@@ -51,41 +27,43 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent('deviceready');
+    //console.log("device is ready");
+
+    
+    //checkConnection();
+    /*var request = $http({
+            method: "post",
+            url: "http://www.mizukinana.jp/news/index.html",
+            data: {
+                type: 'latest'
+            },
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        });
+
+        request.json().success(function(data) {
+          console.log(data);
+        });*/
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
   }
 };
 
-//navigations
-function pageNavigation(){
-  //push
-  var push = document.getElementById('push');
-  push.addEventListener('click', function(){
-    myNavigator.pushPage('blog.html', { animation : 'slide' },function(){
-      //pop
-      var pop = document.getElementById('pop');
-      pop.addEventListener('click', function(){
-        myNavigator.popPage();
-      }, false);
-    });
-  }, false);
-}
+//ネットワーク接続種別確認関数
+function checkConnection() {
+            var networkState = navigator.connection.type;
 
-function newsLoad(){
-  var myApp = angular.module("myApp", []);
-  console.log("call");
- 
-  myApp.run(function($http) {
-    onsole.log("incall");
-    $http.get("../lib/file_get/file_get.php")
-    .success(function(data) {
-      console.log(data);
-    })
-    .error(function(err) {
-      console.log(err);
-    });
-  });
-}
+            var states = {};
+            states[Connection.UNKNOWN]  = 'Unknown connection';
+            states[Connection.ETHERNET] = 'Ethernet connection';
+            states[Connection.WIFI]     = 'WiFi connection';
+            states[Connection.CELL_2G]  = 'Cell 2G connection';
+            states[Connection.CELL_3G]  = 'Cell 3G connection';
+            states[Connection.CELL_4G]  = 'Cell 4G connection';
+            states[Connection.CELL]     = 'Cell generic connection';
+            states[Connection.NONE]     = 'No network connection';
+
+            alert('Connection type: ' + states[networkState]);
+        }
 
 app.initialize();

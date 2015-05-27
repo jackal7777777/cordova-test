@@ -25,4 +25,8 @@
     </platform>
     <!-- ここでオーバースクロールを無効にしています -->
     <preference name="DisallowOverscroll" value="true" />
+    <!-- ネットワーク接続プラグインのための設定 -->
+    <feature name="NetworkStatus">
+        <param name="ios-package" value="CDVConnection" />
+    </feature>
 </widget>
