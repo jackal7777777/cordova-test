@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>A9E99044-C942-4288-8BD8-57D5F0A5D8DC</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>HelloWorld</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>44C5F553D88C1F9EEA77D736CC6158654EB1DE09</key>
 		<string>https://github.com/jackal7777777/cordova-test</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>platforms/ios/HelloWorld.xcodeproj/project.xcworkspace</string>
+	<string>platforms/ios/HelloWorld.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>44C5F553D88C1F9EEA77D736CC6158654EB1DE09</key>
