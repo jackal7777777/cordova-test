@@ -10,12 +10,10 @@
     </div>
   </div>
   <div id="news_area">
-    <ons-list>
+    <ons-list ng-repeat="item in items">
       <ons-list-header class="news_header">LATEST NEWS</ons-list-header>
-      <ons-list-item>first</ons-list-item>
-      <ons-list-item>second</ons-list-item>
-      <ons-list-item>third</ons-list-item>
-      <ons-list-item modifier="tappable" ng-click="networkTest()">通信環境</ons-list-item>
+      <ons-list-item>{{item}}</ons-list-item>
+      <!--<ons-list-item modifier="tappable" ng-click="networkTest()">通信環境</ons-list-item>-->
     </ons-list>
   </div>
 </ons-page>
