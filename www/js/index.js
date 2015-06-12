@@ -10,19 +10,14 @@ var app = {
   bindEvents: function() {
     document.addEventListener('deviceready', this.onDeviceReady, false);
     var module = ons.bootstrap('myApp', ['onsen','newsLoader']);
-    module.controller('AppController', function($scope, $http) {
+    module.controller('AppController', function($scope) {
       console.log("onsen is ready");
     });
     module.controller('NewsController', function($scope, nana) {
-      ons.ready(function() {
-        
-        $scope.networkTest = checkConnection();
-        //$scope.latests = nana.get_news();
-        nana.get_news();
-        //console.log("onsen is ready");
-      });
+      nana.get_news($scope);      
     });
-    module.controller('PageController', function($scope) {});
+    module.controller('DiscoController', function($scope) {});
+    module.controller('BlogController', function($scope) {});
   },
   // deviceready Event Handler
   //
@@ -30,22 +25,6 @@ var app = {
   // function, we must explicitly call 'app.receivedEvent(...);'
   onDeviceReady: function() {
     app.receivedEvent('deviceready');
-    //console.log("device is ready");
-
-    
-    //checkConnection();
-    /*var request = $http({
-            method: "post",
-            url: "http://www.mizukinana.jp/news/index.html",
-            data: {
-                type: 'latest'
-            },
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-        });
-
-        request.json().success(function(data) {
-          console.log(data);
-        });*/
   },
   // Update DOM on a Received Event
   receivedEvent: function(id) {
@@ -69,56 +48,63 @@ function checkConnection() {
   //alert('Connection type: ' + states[networkState]);
 }
 
-angular.module('newsLoader',[]).service('nana', ['$http', function ($http, $scope) {
-  this.get_news = function(){
-    var get_url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.mizukinana.jp%2Fnews%2Findex.html'%20and%20xpath%20%3D%20'%2F%2Fh3'%3B&diagnostics=true";
+angular.module('newsLoader',[]).service('nana', ['$http', function ($http) {
+  this.get_news = function(scope){
+    scope.items = "ok";
+    console.log(scope);
 
     //var get_url = "http://www.mizukinana.jp/";
-    /*
-    return $http({method: "POST"}).json(get_url).then(
-      function (response) {
-        return alert(response.data);
-    },
-    function (response) {
-        alert(response.data.message);
-        //return {items: []};
-    });*/
+    var get_url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.mizukinana.jp%2Fnews%2Findex.html'%20and%20xpath%20%3D%20'%2F%2Fh3'%3B&diagnostics=true";
+
     return $http.get(get_url).success(function(response){
       //console.log(response.query.results);
       var latests = response;
 
+      scope.items = latests;
+
+      console.log(latests);
+
+      //console.log(latests.getElementsByTagName('h3')[0]);
+
+      
       var dom_parser = new DOMParser();
-
       var document_obj = null;
-      try {
+      
+      // XML 文字列から Document オブジェクトを作成する
+      document_obj = dom_parser.parseFromString(latests , "application/xml");
+      //console.log("document_obj:"+document_obj);
 
-        // XML 文字列から Document オブジェクトを作成する
-        document_obj = dom_parser.parseFromString(latests , "application/xml");
+      var doc = document_obj.documentElement;
+      console.log(doc);
+      var items = doc.getElementsByTagName('h3');
+      var item_val;
+      var item_text = [];//ニュースリスト文字列格納用変数
+      var current_text = "";
 
-        // パースに失敗したか
-        if(document_obj.getElementsByTagName("parsererror").length){
-          document_obj = null;
+      for(var i =0; i<items.length; i++){//タグ全て
+        item_val = items[i].childNodes;
+        item_text[i] = "";//初期化
+        for(var j=0; j<item_val.length; j++){//タグ内のノード全て
+          var current_text = item_val[j].nodeValue;//ノード内の文字列取得
+          if(current_text){//nullなら取得しない
+            //特殊文字を排除して取得
+            item_text[i] += current_text.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+            console.log("add:"+current_text);
+          }
         }
-
-      }catch(e){
       }
 
-      // パースに成功した
-      if(document_obj){
-        // 出力テスト
-        console.log(document_obj.documentElement);
-
-        var items = document_obj.getElementsByTagName('h3');
-        console.log(items);
-
-        for(var i=0; i < items.length; i++){
-          console.log(items[i]); 
-        }
-
-        $scope.items = items;
+      //リストに追加
+      scope.items = item_text;
+      //リストを表示
+      //document.getElementById("message").setAttribute("display", "none");
+      document.getElementsByClassName("message").setAttribute("display", "none");
+      //document.getElementById("unloded").setAttribute("display", "block");
+      document.getElementsByClassName("message").setAttribute("display", "none");
 
 
-      }
+    }).error(function(data, status) {
+      console.log(status);
     });
 
 

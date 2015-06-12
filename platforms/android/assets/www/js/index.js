@@ -18,7 +18,8 @@ var app = {
         
         $scope.networkTest = checkConnection();
         //$scope.latests = nana.get_news();
-        nana.get_news();
+        var items = nana.get_news($scope);
+        console.log(items);
         //console.log("onsen is ready");
       });
     });
@@ -69,11 +70,11 @@ function checkConnection() {
   //alert('Connection type: ' + states[networkState]);
 }
 
-angular.module('newsLoader',[]).service('nana', ['$http', function ($http, $scope) {
-  this.get_news = function(){
-    var get_url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.mizukinana.jp%2Fnews%2Findex.html'%20and%20xpath%20%3D%20'%2F%2Fh3'%3B&diagnostics=true";
+angular.module('newsLoader',[]).service('nana', ['$http', function ($http) {
+  this.get_news = function(scope){
+    //var get_url = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20html%20where%20url%20%3D%20'http%3A%2F%2Fwww.mizukinana.jp%2Fnews%2Findex.html'%20and%20xpath%20%3D%20'%2F%2Fh3'%3B&diagnostics=true";
 
-    //var get_url = "http://www.mizukinana.jp/";
+    var get_url = "http://www.mizukinana.jp/";
     /*
     return $http({method: "POST"}).json(get_url).then(
       function (response) {
@@ -108,15 +109,28 @@ angular.module('newsLoader',[]).service('nana', ['$http', function ($http, $scop
         // 出力テスト
         console.log(document_obj.documentElement);
 
-        var items = document_obj.getElementsByTagName('h3');
+        var doc = document_obj.documentElement;
+
+        var items = doc.getElementsByTagName('h3')[0];
         console.log(items);
+        /*var items = items.toString();
+        console.log(items);
+        var items = items.replace(/<("[^"]*"|'[^']*'|[^'">])*>/g,'');
+        console.log(items);*/
 
-        for(var i=0; i < items.length; i++){
-          console.log(items[i]); 
-        }
 
-        $scope.items = items;
+        /*なぜかinnerHTML,Textがundefinedを返すのでコメントアウト
+        console.log(items.innerHTML);
+        console.log(items.prototype.toString);
+        */
 
+        /*for(var i=0; i < items.length; i++){
+          console.log(items[i]);
+        }*/
+        //return items;
+        console.log(items.innerHTML);
+        scope.test = items.innerHTML;
+        scope.items = ["hoge","huga"];
 
       }
     });
